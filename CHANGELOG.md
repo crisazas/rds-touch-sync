@@ -11,10 +11,6 @@
 - Stop polling while the add-on is unplugged.
 - Generate the IDC if it is missing.
 
-## 1.2.1
-
-- Add update notifications and issue templates.
-
 ## 1.2
 
 - Sync touch orientation with the display rotation.

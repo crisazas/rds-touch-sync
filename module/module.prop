@@ -1,7 +1,7 @@
 id=rds_touch_sync
 name=RDS touch orientation sync
-version=1.2.2
-versionCode=5
+version=1.2.3
+versionCode=6
 author=crisazas
 description=Keeps the Retroid Dual Screen touchscreen aligned with the display rotation
 updateJson=https://raw.githubusercontent.com/crisazas/rds-touch-sync/main/update.json

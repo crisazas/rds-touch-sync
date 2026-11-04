@@ -31,15 +31,18 @@ be compensated with `touch.orientation`, and the value depends on the current ro
 theta = (90 - R) mod 360
 ~~~
 
-where R is the display rotation. A fixed IDC therefore cannot keep up: `service.sh` reads
-the rotation every 2 seconds, rewrites the IDC only when the value changed, and
-re-enumerates the USB device so the new file gets picked up.
+where R is the display rotation. A fixed IDC therefore cannot keep up. `service.sh` parks
+an `inotifyd` watcher on `/dev/input`; when the add-on is plugged in, `hotplug.sh` starts
+`watch.sh`, which reads the rotation, rewrites the IDC only when the value changed and
+re-enumerates the USB device so the new file gets picked up. On unplug the watcher exits
+and nothing is polled.
 
 ## Requirements
 
 - Rooted Android (Magisk or KernelSU).
 - Retroid Dual Screen Add-on.
 - Android 13 or newer.
+- toybox `inotifyd`, present in AOSP. The watcher falls back to a plain loop if missing.
 
 ## Tested on
 
@@ -81,7 +84,8 @@ Produces `rds_touch_sync-<version>.zip` next to the repo root.
 
 - The screen blanks for a second or two on every rotation change, because the USB device
   is re-enumerated.
-- The watcher runs continuously.
+- The watcher is started by a hotplug event and exits on unplug; nothing polls while the
+  add-on is disconnected.
 - If a firmware update renames the touch device, the match pattern in `gen.sh` needs
   updating.
 
